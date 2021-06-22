@@ -1,0 +1,22 @@
+.heading {
+  font-family: $heading-font;
+  font-size: $font-size-large;
+  line-height: $height-xlarge;
+  color: $vulcan-color;
+
+  @media only screen and (max-width: $breakpoint-smallest) {
+    font-size: $font-size-medium;
+    line-height: $height-large;
+  }
+}
+
+.paragraph {
+  font-size: $font-size-small;
+  line-height: $height-medium;
+  color: $pale-sky-color;
+
+  @media only screen and (max-width: $breakpoint-smallest) {
+    font-size: $font-size-xsmall;
+    line-height: $height-small;
+  }
+}
