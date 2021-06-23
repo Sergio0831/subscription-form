@@ -17,6 +17,7 @@ html {
 body {
   font-family: $base-font;
   color: $pale-sky-color;
+  font-weight: 400;
 }
 
 li {
@@ -26,4 +27,8 @@ li {
 a {
   display: inline-block;
   text-decoration: none;
+
+  &:focus {
+    outline: 2px dashed $san-marino-color;
+  }
 }
