@@ -4,7 +4,7 @@
   line-height: $height-xlarge;
   color: $vulcan-color;
 
-  @media only screen and (max-width: $breakpoint-smallest) {
+  @media only screen and (max-width: $breakpoint-small) {
     font-size: $font-size-medium;
     line-height: $height-large;
   }
@@ -15,7 +15,7 @@
   line-height: $height-medium;
   color: $pale-sky-color;
 
-  @media only screen and (max-width: $breakpoint-smallest) {
+  @media only screen and (max-width: $breakpoint-small) {
     font-size: $font-size-xsmall;
     line-height: $height-small;
   }

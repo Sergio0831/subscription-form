@@ -1,14 +1,16 @@
 import "./App.scss";
 import Logo from "./images/logo_pineapple.png";
+import LogoText from "./images/text_pineapple.png";
 
 function App() {
   return (
     <section className='App'>
-      {/* Right side */}
+      {/* Left side */}
       <div className='section-content'>
         <header className='header'>
           <div className='header__logo'>
             <img className='logo' src={Logo} alt='Logo' />
+            <img className='logo-text' src={LogoText} alt='Text' />
           </div>
           <nav className='nav'>
             <ul className='nav__list'>
@@ -99,7 +101,7 @@ function App() {
         </div>
       </div>
 
-      {/* Left side with image */}
+      {/* Right side with image */}
       <div className='section-image'></div>
     </section>
   );
