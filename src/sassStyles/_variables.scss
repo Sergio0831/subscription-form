@@ -6,13 +6,6 @@ $iron-color: #e3e3e4;
 $white-lilac-color: #f2f5fa;
 $white-color: #fff;
 
-// Media Queries
-$breakpoint-large: 84em; // 1200px
-//$breakpoint-large: 68.75em; // 1100px
-$breakpoint-medium: 61.19em; // 979px
-$breakpoint-small: 31.19em; // 499px
-//$breakpoint-smallest: 28.125em; // 450px
-
 // Font family
 $base-font: Arial, sans-serif;
 $heading-font: Georgia, serif;
@@ -29,3 +22,8 @@ $height-small: 2.6rem;
 $height-medium: 2.8rem;
 $height-large: 3.4rem;
 $height-xlarge: 4.4rem;
+
+// Media Queries
+$breakpoint-large: 84em; // 1200px
+$breakpoint-medium: 61.19em; // 979px
+$breakpoint-small: 31.19em; // 499px

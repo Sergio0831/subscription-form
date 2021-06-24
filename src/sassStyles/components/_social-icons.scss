@@ -1,0 +1,82 @@
+//=== Social Icons ===//
+.social-icons {
+  display: flex;
+  justify-content: center;
+
+  .icon {
+    &:not(:last-child) {
+      margin-right: 2rem;
+    }
+
+    &__link {
+      &:hover + .icon__social {
+        color: $white-color;
+      }
+    }
+
+    &__social {
+      color: $vulcan-color;
+      font-size: $font-size-small;
+      opacity: 0.3;
+      transition: all ease 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 4.6rem;
+      width: 4.6rem;
+      border: 2px solid $iron-color;
+      border-radius: 50%;
+
+      &:hover {
+        color: $white-color;
+        box-shadow: 0 2rem 4rem rgba(19, 24, 33, 0.3);
+        opacity: 1;
+      }
+
+      @media only screen and (max-width: $breakpoint-medium /* 979px */),
+        only screen and (hover: none) {
+        opacity: 0.4;
+      }
+    }
+
+    .icon-ic_facebook {
+      &:hover {
+        background: #4267b2;
+      }
+
+      &:active {
+        background: #2f4a80;
+      }
+    }
+
+    .icon-ic_instagram {
+      &:hover {
+        background: #c13584;
+      }
+
+      &:active {
+        background: #8f2762;
+      }
+    }
+
+    .icon-ic_twitter {
+      &:hover {
+        background: #1da1f2;
+      }
+
+      &:active {
+        background: #177fbf;
+      }
+    }
+
+    .icon-ic_youtube {
+      &:hover {
+        background: #ff0000;
+      }
+
+      &:active {
+        background: #cc0000;
+      }
+    }
+  }
+}

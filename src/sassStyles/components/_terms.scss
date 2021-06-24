@@ -1,0 +1,57 @@
+//=== Terms of Service ===//
+.terms {
+  display: flex;
+  margin-bottom: 5rem;
+  font-size: $font-size-small;
+  line-height: $height-medium;
+
+  &__label {
+    padding-left: 4.1rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  &__checkbox {
+    position: absolute;
+    //-webkit-appearance: none;
+    //-moz-appearance: none;
+    appearance: none;
+
+    &:checked + .custom-checkbox {
+      background: $san-marino-color url("../../images/checkmark.svg") no-repeat
+        center;
+    }
+
+    &:focus + .custom-checkbox {
+      border: 2px dashed $san-marino-color;
+    }
+  }
+
+  .custom-checkbox {
+    position: absolute;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-left: -4.1rem;
+    border-radius: 3px;
+    background: $white-color;
+    border: 1px solid $iron-color;
+  }
+
+  &__link {
+    text-decoration-line: underline;
+    color: $vulcan-color;
+    transition: all ease 0.3s;
+
+    &:hover {
+      color: $san-marino-color;
+    }
+
+    &:active {
+      color: #233759;
+    }
+  }
+
+  @media only screen and (max-width: $breakpoint-small /* 499px */) {
+    margin-bottom: 2rem;
+  }
+}

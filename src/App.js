@@ -1,8 +1,91 @@
 import "./App.scss";
+import SocialIcons from "./components/SocialIcons";
+import NavMenu from "./components/NavMenu";
 import Logo from "./images/logo_pineapple.png";
 import LogoText from "./images/text_pineapple.png";
+import { useState } from "react";
+import clsx from "clsx";
 
 function App() {
+  const [email, setEmail] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isValid, setIsvalid] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const className = clsx({
+    subheading: true,
+    "error-message": true,
+    "hide-message": isValid
+  });
+
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+  const regexCo = /^[a-zA-Z0-9_.+-]+@(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.co$/g;
+
+  const handleEmailChange = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+    if (!regex.test(email)) {
+      setErrorMessage("Please provide a valid e-mail address");
+      setIsvalid(true);
+    } else {
+      setErrorMessage("");
+      setIsvalid(false);
+      setIsDisabled(false);
+    }
+  };
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+    if (!isChecked) {
+      setErrorMessage("You must accept the terms and conditions");
+      setIsvalid(true);
+      setIsDisabled(false);
+    } else {
+      setErrorMessage("");
+      setIsvalid(false);
+      setIsDisabled(true);
+    }
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    /* Email validation */
+    if (!email) {
+      setErrorMessage("Email address is required");
+      setIsvalid(false);
+      setIsDisabled(true);
+      return;
+    }
+    if (!regex.test(email)) {
+      setErrorMessage("Please provide a valid e-mail address");
+      setIsvalid(false);
+      setIsDisabled(true);
+      return;
+    }
+    if (regexCo.test(email)) {
+      setErrorMessage(
+        "We are not accepting subscriptions from Colombia emails"
+      );
+      setIsvalid(false);
+      setIsDisabled(true);
+      return;
+    }
+    if (!isChecked) {
+      setErrorMessage("You must accept the terms and conditions");
+      setIsvalid(false);
+      setIsDisabled(true);
+      return;
+    }
+
+    setEmail("");
+    setErrorMessage("");
+    setIsChecked(!isChecked);
+    setIsvalid(false);
+    setIsDisabled(false);
+  };
+
   return (
     <section className='App'>
       {/* Left side */}
@@ -12,26 +95,12 @@ function App() {
             <img className='logo' src={Logo} alt='Logo' />
             <img className='logo-text' src={LogoText} alt='Text' />
           </div>
-          <nav className='nav'>
-            <ul className='nav__list'>
-              <li className='nav__list-item'>
-                <a href='#' className='nav__list-link'>
-                  About
-                </a>
-              </li>
-              <li className='nav__list-item'>
-                <a href='#' className='nav__list-link'>
-                  How it works
-                </a>
-              </li>
-              <li className='nav__list-item'>
-                <a href='#' className='nav__list-link'>
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
+
+          {/* Nav menu */}
+          <NavMenu />
         </header>
+
+        {/* Base */}
         <div className='base'>
           <h1 className='base__heading heading'>Subscribe to newsletter</h1>
           <p className='base__subheading subheading'>
@@ -40,20 +109,26 @@ function App() {
           </p>
 
           {/* Newsletter form */}
-          <form action='' className='form'>
+          <form action='' className='form' onSubmit={handleFormSubmit}>
             <div className='input-box'>
               <label htmlFor='email' className='email-label'></label>
               <input
-                type='email'
                 name='email'
                 id='email'
+                value={email}
                 className='email-input'
                 placeholder='Type your email address here…'
+                onChange={handleEmailChange}
               />
-              <button type='submit' className='submit-btn'>
+              <button
+                disabled={isDisabled}
+                type='submit'
+                className='submit-btn'
+              >
                 <i className='icon-ic_arrow'></i>
               </button>
             </div>
+            <p className={className}>{errorMessage}</p>
           </form>
 
           {/* Terms of service */}
@@ -64,6 +139,8 @@ function App() {
                 name='checkbox'
                 id='checkbox'
                 className='terms__checkbox'
+                checked={isChecked}
+                onChange={handleCheckboxChange}
               />
               <span className='custom-checkbox'></span>I agree to{" "}
               <a href='#' className='terms__link'>
@@ -76,28 +153,7 @@ function App() {
           <div className='base__line'></div>
 
           {/* Social icons */}
-          <ul className='social-icons'>
-            <li className='icon'>
-              <a className='icon__link' href='#'>
-                <i className='icon__social icon-ic_facebook'></i>
-              </a>
-            </li>
-            <li className='icon'>
-              <a className=' icon__link' href='#'>
-                <i className='icon__social icon-ic_instagram'></i>
-              </a>
-            </li>
-            <li className='icon'>
-              <a className='icon__link' href='#'>
-                <i className='icon__social icon-ic_twitter'></i>
-              </a>
-            </li>
-            <li className='icon'>
-              <a className='icon__link' href='#'>
-                <i className='icon__social icon-ic_youtube'></i>
-              </a>
-            </li>
-          </ul>
+          <SocialIcons />
         </div>
       </div>
 
