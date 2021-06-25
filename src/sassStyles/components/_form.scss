@@ -7,6 +7,7 @@
     width: 65rem;
     height: 7rem;
     margin-left: -5rem;
+    margin-bottom: 5rem;
 
     @media only screen and (max-width: $breakpoint-large) {
       width: 100%;
@@ -15,6 +16,7 @@
 
     @media only screen and (max-width: $breakpoint-small /* 499px */) {
       height: 6rem;
+      margin-bottom: 2rem;
     }
   }
 
@@ -93,10 +95,13 @@
 
   .error-message {
     color: #ff0000;
+    z-index: 10;
+    position: absolute;
+    bottom: -30px;
   }
 
-  .hide-message {
-    display: none;
+  .show-message {
+    display: block;
   }
 
   @media only screen and (max-width: $breakpoint-small /* 499px */) {

@@ -4,47 +4,36 @@ import NavMenu from "./components/NavMenu";
 import Logo from "./images/logo_pineapple.png";
 import LogoText from "./images/text_pineapple.png";
 import { useState } from "react";
-import clsx from "clsx";
 
 function App() {
   const [email, setEmail] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isValid, setIsvalid] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-
-  const className = clsx({
-    subheading: true,
-    "error-message": true,
-    "hide-message": isValid
-  });
 
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
   const regexCo = /^[a-zA-Z0-9_.+-]+@(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.co$/g;
 
   const handleEmailChange = (e) => {
-    const email = e.target.value;
-    setEmail(email);
-    if (!regex.test(email)) {
-      setErrorMessage("Please provide a valid e-mail address");
-      setIsvalid(true);
-    } else {
-      setErrorMessage("");
-      setIsvalid(false);
+    setEmail(e.target.value);
+    if (regex.test(e.target.value)) {
       setIsDisabled(false);
+      setErrorMessage("");
+      return;
+    }
+    if (email) {
+      setIsDisabled(false);
+      setErrorMessage("");
+      return;
     }
   };
 
-  const handleCheckboxChange = () => {
+  const handleCheckboxChange = (e) => {
     setIsChecked(!isChecked);
     if (!isChecked) {
-      setErrorMessage("You must accept the terms and conditions");
-      setIsvalid(true);
       setIsDisabled(false);
-    } else {
       setErrorMessage("");
-      setIsvalid(false);
-      setIsDisabled(true);
+      return;
     }
   };
 
@@ -54,35 +43,36 @@ function App() {
     /* Email validation */
     if (!email) {
       setErrorMessage("Email address is required");
-      setIsvalid(false);
       setIsDisabled(true);
       return;
     }
+
+    /* Check if it's email */
     if (!regex.test(email)) {
       setErrorMessage("Please provide a valid e-mail address");
-      setIsvalid(false);
       setIsDisabled(true);
       return;
     }
+
+    /* Check if email not .co */
     if (regexCo.test(email)) {
       setErrorMessage(
         "We are not accepting subscriptions from Colombia emails"
       );
-      setIsvalid(false);
       setIsDisabled(true);
       return;
     }
+
+    /* Check if terms of services checkbox checked */
     if (!isChecked) {
-      setErrorMessage("You must accept the terms and conditions");
-      setIsvalid(false);
       setIsDisabled(true);
+      setErrorMessage("You must accept the terms and conditions");
       return;
     }
 
     setEmail("");
     setErrorMessage("");
     setIsChecked(!isChecked);
-    setIsvalid(false);
     setIsDisabled(false);
   };
 
@@ -127,27 +117,26 @@ function App() {
               >
                 <i className='icon-ic_arrow'></i>
               </button>
+              <p className='subheading error-message'>{errorMessage}</p>
             </div>
-            <p className={className}>{errorMessage}</p>
+            {/* Terms of service */}
+            <div className='terms'>
+              <label htmlFor='checkbox' className='terms__label'>
+                <input
+                  type='checkbox'
+                  name='checkbox'
+                  id='checkbox'
+                  className='terms__checkbox'
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                />
+                <span className='custom-checkbox'></span>I agree to{" "}
+                <a href='#' className='terms__link'>
+                  terms of service
+                </a>
+              </label>
+            </div>
           </form>
-
-          {/* Terms of service */}
-          <div className='terms'>
-            <label htmlFor='checkbox' className='terms__label'>
-              <input
-                type='checkbox'
-                name='checkbox'
-                id='checkbox'
-                className='terms__checkbox'
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-              />
-              <span className='custom-checkbox'></span>I agree to{" "}
-              <a href='#' className='terms__link'>
-                terms of service
-              </a>
-            </label>
-          </div>
 
           {/* Line between terms and socila icons */}
           <div className='base__line'></div>
