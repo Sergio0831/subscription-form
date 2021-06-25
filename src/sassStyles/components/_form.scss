@@ -4,9 +4,9 @@
 
   .input-box {
     position: relative;
-    width: 65rem;
+    width: 66rem;
     height: 7rem;
-    margin-left: -5rem;
+    margin-left: -4rem;
     margin-bottom: 5rem;
 
     @media only screen and (max-width: $breakpoint-large) {
@@ -78,7 +78,7 @@
     cursor: pointer;
     z-index: 20;
     position: absolute;
-    right: 0;
+    right: 7px;
 
     .icon-ic_arrow {
       color: #131821;
@@ -98,6 +98,10 @@
     z-index: 10;
     position: absolute;
     bottom: -30px;
+
+    @media only screen and (max-width: $breakpoint-small /* 499px */) {
+      bottom: -22px;
+    }
   }
 
   .show-message {

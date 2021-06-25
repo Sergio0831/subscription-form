@@ -2,6 +2,7 @@
   font-family: $heading-font;
   font-size: $font-size-large;
   line-height: $height-xlarge;
+  font-weight: $weight-normal;
   color: $vulcan-color;
 
   @media only screen and (max-width: $breakpoint-small) {

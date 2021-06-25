@@ -1,0 +1,63 @@
+//=== Container for headings, form, terms and icons  ===//
+.base {
+  position: absolute;
+  top: 56%;
+  max-width: 40rem;
+  transform: translateY(-50%);
+  z-index: 10;
+
+  .cup {
+    margin-bottom: 3rem;
+
+    @media only screen and (max-width: $breakpoint-small /* 499px */) {
+      margin-bottom: 4rem;
+    }
+  }
+
+  &__heading {
+    margin-bottom: 1.5rem;
+
+    @media only screen and (max-width: $breakpoint-small /* 499px */) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__subheading {
+    margin-bottom: 5rem;
+
+    @media only screen and (max-width: $breakpoint-small /* 499px */) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__line {
+    margin-bottom: 5rem;
+    height: 0;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      height: 1px;
+      width: 100%;
+      background-color: $iron-color;
+    }
+
+    @media only screen and (max-width: $breakpoint-small /* 499px */) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  @media only screen and (max-width: $breakpoint-medium /* 979px */) {
+    background: linear-gradient(
+      180deg,
+      $white-color 0%,
+      $white-lilac-color 100%
+    );
+    padding: 3rem 2rem;
+    max-width: 45rem;
+  }
+
+  @media only screen and (max-width: $breakpoint-small /* 499px */) {
+    max-width: 33.5rem;
+  }
+}

@@ -1,0 +1,56 @@
+.section {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+
+  //=== Right side with image ===//
+  &__image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../images/image_summer.png");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: cover;
+
+    @media only screen and (max-width: $breakpoint-large) {
+      width: 50%;
+      background-position: left;
+    }
+
+    @media only screen and (max-width: $breakpoint-medium /* 979px */) {
+      position: absolute;
+      width: 100%;
+      background-position: center;
+    }
+  }
+
+  //=== Left side with content ===//
+  &__content {
+    max-width: 68rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(
+      180deg,
+      $white-color 0%,
+      $white-lilac-color 100%
+    );
+
+    @media only screen and (max-width: $breakpoint-large) {
+      width: 50%;
+    }
+
+    @media only screen and (max-width: $breakpoint-medium /* 979px */) {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+
+  @media only screen and (max-width: $breakpoint-medium /* 979px */) {
+    justify-content: center;
+  }
+}
