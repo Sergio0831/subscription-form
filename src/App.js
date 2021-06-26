@@ -5,6 +5,7 @@ import Logo from "./images/logo_pineapple.png";
 import LogoText from "./images/text_pineapple.png";
 import Cup from "./images/cup.png";
 import { useState } from "react";
+import axios from "axios";
 
 function App() {
   const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [error, setError] = useState(null);
 
   const heading = isFormSubmitted
     ? "Thanks for subscribing!"
@@ -80,11 +82,26 @@ function App() {
       return;
     }
 
-    setEmail("");
-    setErrorMessage("");
-    setIsChecked(!isChecked);
-    setIsDisabled(false);
-    setIsFormSubmitted(true);
+    /* Send email address to the server */
+
+    fetch("http://localhost/subscription-form/insert.php", {
+      mode: "no-cors",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ subscription: email })
+    }).then((data) => {
+      console.log(data);
+      console.log("new subscriber is added");
+      setEmail("");
+      setErrorMessage("");
+      setIsChecked(!isChecked);
+      setIsDisabled(false);
+      setIsFormSubmitted(true);
+      //setError(null);
+    });
+    //.catch((err) => console.log(err.message));
   };
 
   return (
@@ -107,6 +124,9 @@ function App() {
           {isFormSubmitted && <img className='cup' src={Cup} alt='Cup' />}
           <h1 className='base__heading heading'>{heading}</h1>
           <p className='base__subheading subheading'>{subHeading}</p>
+
+          {/* Show error */}
+          {error && <h1 className='base__heading heading'>{error}</h1>}
 
           {/* Newsletter form */}
           {!isFormSubmitted && (
