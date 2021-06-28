@@ -84,7 +84,7 @@ function App() {
 
     /* Send email address to the server */
 
-    fetch("http://localhost/php/insert.php", {
+    fetch("http://localhost/subscription-form/backend/insert.php", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -92,6 +92,11 @@ function App() {
       },
       body: JSON.stringify({ subscription: email })
     })
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Something went wrong");
+        }
+      })
       .then((data) => {
         console.log(data);
         console.log("new subscriber is added");
@@ -100,9 +105,11 @@ function App() {
         setIsChecked(!isChecked);
         setIsDisabled(false);
         setIsFormSubmitted(true);
-        //setError(null);
+        setError(null);
       })
-      .catch((err) => console.log("Form submit error", err));
+      .catch((err) => {
+        setError(err.message);
+      });
   };
 
   return (
@@ -121,54 +128,62 @@ function App() {
 
         {/* Base */}
         <div className='base'>
-          {/* Show cup image after form is submitted */}
-          {isFormSubmitted && <img className='cup' src={Cup} alt='Cup' />}
-          <h1 className='base__heading heading'>{heading}</h1>
-          <p className='base__subheading subheading'>{subHeading}</p>
-
           {/* Show error */}
           {error && <h1 className='base__heading heading'>{error}</h1>}
 
+          {/* Show cup image after form is submitted */}
+          {isFormSubmitted && !error && (
+            <>
+              <img className='cup' src={Cup} alt='Cup' />
+              <h1 className='base__heading heading'>{heading}</h1>
+              <p className='base__subheading subheading'>{subHeading}</p>
+            </>
+          )}
+
           {/* Newsletter form */}
-          {!isFormSubmitted && (
-            <form action='' className='form' onSubmit={handleFormSubmit}>
-              <div className='input-box'>
-                <label htmlFor='email' className='email-label'></label>
-                <input
-                  name='email'
-                  id='email'
-                  value={email}
-                  className='email-input'
-                  placeholder='Type your email address here…'
-                  onChange={handleEmailChange}
-                />
-                <button
-                  disabled={isDisabled}
-                  type='submit'
-                  className='submit-btn'
-                >
-                  <i className='icon-ic_arrow'></i>
-                </button>
-                <p className='subheading error-message'>{errorMessage}</p>
-              </div>
-              {/* Terms of service */}
-              <div className='terms'>
-                <label htmlFor='checkbox' className='terms__label'>
+          {!isFormSubmitted && !error && (
+            <>
+              <h1 className='base__heading heading'>{heading}</h1>
+              <p className='base__subheading subheading'>{subHeading}</p>
+              <form action='' className='form' onSubmit={handleFormSubmit}>
+                <div className='input-box'>
+                  <label htmlFor='email' className='email-label'></label>
                   <input
-                    type='checkbox'
-                    name='checkbox'
-                    id='checkbox'
-                    className='terms__checkbox'
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
+                    name='email'
+                    id='email'
+                    value={email}
+                    className='email-input'
+                    placeholder='Type your email address here…'
+                    onChange={handleEmailChange}
                   />
-                  <span className='custom-checkbox'></span>I agree to{" "}
-                  <a href='#' className='terms__link'>
-                    terms of service
-                  </a>
-                </label>
-              </div>
-            </form>
+                  <button
+                    disabled={isDisabled}
+                    type='submit'
+                    className='submit-btn'
+                  >
+                    <i className='icon-ic_arrow'></i>
+                  </button>
+                  <p className='subheading error-message'>{errorMessage}</p>
+                </div>
+                {/* Terms of service */}
+                <div className='terms'>
+                  <label htmlFor='checkbox' className='terms__label'>
+                    <input
+                      type='checkbox'
+                      name='checkbox'
+                      id='checkbox'
+                      className='terms__checkbox'
+                      checked={isChecked}
+                      onChange={handleCheckboxChange}
+                    />
+                    <span className='custom-checkbox'></span>I agree to{" "}
+                    <a href='#' className='terms__link'>
+                      terms of service
+                    </a>
+                  </label>
+                </div>
+              </form>
+            </>
           )}
 
           {/* Line between terms and socila icons */}

@@ -59,10 +59,20 @@ class CreateDb {
     public function getData() {
         $sql = "SELECT * FROM $this->tablename";
 
-        $result = mysqli_query($this->con, sql);
+        $result = mysqli_query($this->con, $sql);
 
-        if(my_num_rows($result) > 0) {
+        if(mysqli_num_rows($result) > 0) {
             return $result;
+        }
+    }
+
+    public function deleteData($id) {
+        $sql = "DELETE FROM $this->tablename where id = '$id'";
+
+        if(mysqli_query($this->con, $sql)){
+            return true;
+        } else {
+            return false; 
         }
     }
     
