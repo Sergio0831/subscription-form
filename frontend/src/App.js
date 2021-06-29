@@ -98,8 +98,6 @@ function App() {
         }
       })
       .then((data) => {
-        console.log(data);
-        console.log("new subscriber is added");
         setEmail("");
         setErrorMessage("");
         setIsChecked(!isChecked);

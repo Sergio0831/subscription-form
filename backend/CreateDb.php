@@ -53,19 +53,21 @@ class CreateDb {
             }
         }
     }
-    
-    
-    // Get data from the database
-    public function getData() {
-        $sql = "SELECT * FROM $this->tablename";
 
-        $result = mysqli_query($this->con, $sql);
+    // Store data from the database
+    public function storeData($value) {
+        $sql = "INSERT INTO $this->tablename(`email_address`) VALUES ('{$value}')";
 
-        if(mysqli_num_rows($result) > 0) {
-            return $result;
+    
+        if(mysqli_query($this->con, $sql)) {
+            http_response_code(201);
+        } else {
+            http_response_code(422);
+            
         }
     }
 
+    // Delete data from the database
     public function deleteData($id) {
         $sql = "DELETE FROM $this->tablename where id = '$id'";
 
