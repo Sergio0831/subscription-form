@@ -5,28 +5,28 @@ require_once("./CreateDb.php");
 // Create instance of Createdb class
 $database = new CreateDB();
 
-if(isset($_POST['export'])) {
-    $emails = $_POST['email_export'];
-
-    
-   foreach ($emails as $email) {
-             echo "Email : ".$email."<br />";
-        }
+// Pagination
+if(isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
 }
 
+$num_per_page = 10;
+$start_from = ($page * $num_per_page) - $num_per_page;
 
+// Display subscriptions and search
 if(isset($_POST['search'])) {
-    $searchData = $database->con->real_escape_string($_POST['search']);
+    $search_data = $database->con->real_escape_string($_POST['search']);
     $column = $database->con->real_escape_string($_POST['sort']);
-    $sql = "SELECT * FROM $database->tablename WHERE $column LIKE '%$searchData%'";
+    $sql = "SELECT * FROM $database->tablename WHERE $column LIKE '%$search_data%' LIMIT $start_from, $num_per_page";
 } else {
-    $sql = "SELECT * FROM $database->tablename";
-    $searchData = "";
+    $sql = "SELECT * FROM $database->tablename LIMIT $start_from, $num_per_page";
+    $search_data = "";
 }
 
 $subscriptions = mysqli_query($database->con, $sql);
     
-
 ?>
 
 <!DOCTYPE html>
@@ -40,14 +40,16 @@ $subscriptions = mysqli_query($database->con, $sql);
 <body>
 
     <!-- Export to CSV button -->
-    <button type="submit" form="export" value="Export" name="export">Export to CSV</button>
+    <form action="export.php" method="POST">
+        <input type="submit" value="Export to CSV" name="export">
+    </form>
 
     <!-- Search bar -->
-    <form id="form" action="" method="post">
+    <form id="form" action="index.php" method="post">
     <label for="search"></label>
     <input type="search" id="search" name="search" placeholder="Search subscription...">
     <!-- Sorting select -->
-    <label for="sort">Sort By</label>
+    <label for="sort">Search By</label>
     <select name="sort" id="sort">
         <option value="email_address">Name</option>
         <option value="created_at" selected>Date</option>
@@ -58,49 +60,63 @@ $subscriptions = mysqli_query($database->con, $sql);
 
     <!-- Table -->
     <table border="1px" >
-        <tr>
-            <th>Id</th>
-            <th>Email Address:</th>
-            <th>Created At:</th>
-            <th>Action</th>
-        </tr>
-        <?php
-        $i = 1; // Variable for row number
+        <thead>
+            <tr>
+                <th>Id:</th>
+                <th>Email Address:</th>
+                <th>Created At:</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+            <?php
+        $i = 1; // Variable for row number  
         if(!empty($subscriptions)) {
             while ($row = mysqli_fetch_assoc($subscriptions)) { 
-
                 // Data variables
-                $subscriptionId = $row['id'];
-                $subscriptionEmail = htmlentities($row['email_address']);
-                $subscriptionCreatedAt = date_format(date_create($row['created_at']), 'd-m-Y');
+                $subscription_number = $i++;
+                $subscription_id = $row['id'];
+                $subscription_email = htmlentities($row['email_address']);
+                $subscription_created_at = date_format(date_create($row['created_at']), 'd-m-Y');
+                
                 ?>
-
-                <tr>
-                    <td><?php echo $i++; ?></td>
-                    <td>
-                    <form action="" method="post" style="display: inline-block;" id="export">
-                    <label for="email-export"></label>
-                        <input id="email-export" type="checkbox" name="email_export[]" value=<?php echo $subscriptionEmail; ?>>
-                    </form>    
-                        <?php echo $subscriptionEmail; ?> 
-                    </td>
-                    <td>
-                        <?php echo $subscriptionCreatedAt; ?>
-                    </td>
-                    <td>
-                    <form action="delete.php" method="POST">
-                        <button type="submit" name="delete" value="Delete">Delete</button>
-                        <input type="hidden" name="email_id" value=<?php echo $subscriptionId; ?>>
-                    </form>    
-                    </td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td><?php echo $subscription_number; ?></td>
+                        <td>
+                            <?php echo $subscription_email; ?> 
+                        </td>
+                        <td>
+                            <?php echo $subscription_created_at; ?>
+                        </td>
+                        <td>
+                        <form action="delete.php" method="POST">
+                            <button type="submit" name="delete" value="Delete">Delete</button>
+                            <input type="hidden" name="email_id" value=<?php echo $subscription_id; ?>>
+                        </form>    
+                        </td>
+                    </tr>
            <?php }
         } else { ?>
-                    <tr>
-                        <td>Data not exsist!</td>
-                    </tr>
+                        <tr>
+                            <td>Data not exsist!</td>
+                        </tr>
+                    </tbody>
         <?php }
         ?>
+        
     </table>
+    <?php 
+    // Pagination
+    $sql = "SELECT * FROM $database->tablename";
+    $subscriptions = mysqli_query($database->con, $sql);
+    $total_subscriptions = mysqli_num_rows($subscriptions);
+
+    $total_page = ceil($total_subscriptions/$num_per_page);
+            
+    for($i = 1; $i < $total_page + 1; $i++) {
+        echo "<a href='?page=".$i."'> $i </a>";
+    }
+
+    ?>
 </body>
 </html>
